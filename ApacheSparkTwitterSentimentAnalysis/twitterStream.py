@@ -24,7 +24,6 @@ def make_plot(counts):
     Plot the counts for the positive and negative words for each timestep.
     Use plt.show() so that the plot will popup.
     """
-    # YOUR CODE HERE
     positive =[]
     negative =[]
     for count in counts:
@@ -74,9 +73,8 @@ def stream(ssc, pwords, nwords, duration):
 
     
     # Each element of tweets will be the text of a tweet.
-    # You need to find the count of all the positive and negative words in these tweets.
+    # Need to find the count of all the positive and negative words in these tweets.
     # Keep track of a running total counts and print this at every time step (use the pprint function).
-    # YOUR CODE HERE
     pnTweets = tweets.flatMap(lambda line: line.split(" "))
     pnTweetsPairs = pnTweets.map(lambda x: determine(x,pwords,nwords))
     wordCounts = pnTweetsPairs.reduceByKey(lambda x, y: x + y)
@@ -84,11 +82,10 @@ def stream(ssc, pwords, nwords, duration):
     totalCounts = pnTweetsPairs.updateStateByKey(updateFunction)
     totalCounts.pprint()
     # Let the counts variable hold the word counts for all time steps
-    # You will need to use the foreachRDD function.
+    # Need to use the foreachRDD function.
     # For our implementation, counts looked like:
     #   [[("positive", 100), ("negative", 50)], [("positive", 80), ("negative", 60)], ...]
     counts = []
-    # YOURDSTREAMOBJECT.foreachRDD(lambda t,rdd: counts.append(rdd.collect()))
     wordCounts.foreachRDD(lambda t,rdd: counts.append(rdd.collect()))
     
     
